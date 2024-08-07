@@ -1,8 +1,11 @@
+
 <?php
+
 $sever="localhost";
 $user="root";
 $pass="";
 $database="db";
+
 $conn=mysqli_connect($sever,$user,$pass,$database);
 
 if (!$conn) {
@@ -25,6 +28,16 @@ if (isset($_POST["email"])) {
     
 }
 
+if (isset($_GET["delete"])) {
+  $del=$_GET["delete"];
+  $delq="DELETE FROM `ins` WHERE id=$del";
+  $resdel=mysqli_query($conn,$delq);
+  if ($resdel) {
+    //  header("location:insert.php");
+  }
+}
+
+
 ?>
 
 <!doctype html>
@@ -45,7 +58,7 @@ if (isset($_POST["email"])) {
 </div>
 <div class="mb-3">
   <label for="exampleFormControlInput1" class="form-label">Password</label>
-  <input type="password" class="form-control" name="password" id="exampleFormControlInput1" placeholder="Enter Your Password">
+  <input type="password" class="form-control" name="password" id="exampleFormControlInput2" placeholder="Enter Your Password">
 </div>
 <button type="submit" class="btn btn-success">submit</button>
 </form>
@@ -56,7 +69,7 @@ if (isset($_POST["email"])) {
   <thead>
    
     <tr>
-      <th scope="col"> ID </th>
+      <th scope="col"> # </th>
       <th scope="col">Email</th>
       <th scope="col">PASSWORD</th>
       <th scope="col">Handle</th>
@@ -78,7 +91,7 @@ if (isset($_POST["email"])) {
   echo"<td>".$item["Password"]."</td>";
   echo"<td><div class='button'>
 <button type='submit' class='btn btn-success edit' id=".$item["id"].">update</button>
-<button type='submit' class='btn btn-danger delete' id=".$item ["id"].">delete</button>
+<button type='submit' class='btn btn-danger delete'  id=".$item["id"].">delete</button>
 </div>
 </td>";
   
@@ -93,8 +106,35 @@ if (isset($_POST["email"])) {
 </div>
 
 
+
+
+<script>
+
+del = document.getElementsByClassName("delete");
+
+Array.from(del).forEach(index => {
+  index.addEventListener("click",(e)=>{
+    console.log("delete is working",);
+    sno=e.target.id;
+  if (confirm("are you soure")) {
+  window.location=`/assainment/insert.php?delete=${sno}`    
+  }
+
+    
+
+  });
+
+  
+
+});
+
+
+
+
 </script>
 
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
   </body>
-</html>
+  </html>
